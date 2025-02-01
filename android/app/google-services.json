@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "105377310701",
+    "project_id": "elcontrastepush1",
+    "storage_bucket": "elcontrastepush1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105377310701:android:25b49bd1ba182111bd29e4",
+        "android_client_info": {
+          "package_name": "com.example.elcontraste_push"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGfQssOxOvBotDTBT8A-QS-MmcRnJM7o8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
