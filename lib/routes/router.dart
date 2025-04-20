@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:elcontraste_push/screens/screen_welcome.dart';
-import 'package:elcontraste_push/screens/screen_news.dart';
-import 'package:elcontraste_push/screens/screen_radio.dart';
+import 'package:ElContrasteApp/screens/screen_welcome.dart';
+import 'package:ElContrasteApp/screens/screen_news.dart';
+import 'package:ElContrasteApp/screens/screen_radio.dart';
 
 class AppRouter {
   // Método que se encarga de generar las rutas de la aplicación
@@ -12,7 +12,7 @@ class AppRouter {
       case '/news':
         return MaterialPageRoute(builder: (_) => const NoticiasPage());
       case '/radio':
-        return MaterialPageRoute(builder: (_) => const ScreenRadio());
+        return MaterialPageRoute(builder: (_) => const RadioPage());
       default:
         // Devuelve null para rutas desconocidas
         return null;

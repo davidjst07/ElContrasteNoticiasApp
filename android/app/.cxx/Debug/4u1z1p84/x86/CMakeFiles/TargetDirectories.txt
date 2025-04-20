@@ -1,0 +1,2 @@
+C:/Users/Familia Sanchez E/Documents/Flutter/notificaciones_push/elcontraste_push/android/app/.cxx/Debug/4u1z1p84/x86/CMakeFiles/edit_cache.dir
+C:/Users/Familia Sanchez E/Documents/Flutter/notificaciones_push/elcontraste_push/android/app/.cxx/Debug/4u1z1p84/x86/CMakeFiles/rebuild_cache.dir

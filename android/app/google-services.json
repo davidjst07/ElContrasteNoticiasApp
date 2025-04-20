@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "105377310701",
-    "project_id": "elcontrastepush1",
-    "storage_bucket": "elcontrastepush1.firebasestorage.app"
+    "project_number": "183914466069",
+    "project_id": "elcontrastenoticiasapp",
+    "storage_bucket": "elcontrastenoticiasapp.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:105377310701:android:25b49bd1ba182111bd29e4",
+        "mobilesdk_app_id": "1:183914466069:android:cfc1e9344f63b344a3371c",
         "android_client_info": {
-          "package_name": "com.example.elcontraste_push"
+          "package_name": "com.davidsanchez.elcontrastenoticiasapp"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAGfQssOxOvBotDTBT8A-QS-MmcRnJM7o8"
+          "current_key": "AIzaSyAR8j9N1oWOJ-MmFM_k67O-nQJXlh8f79M"
         }
       ],
       "services": {

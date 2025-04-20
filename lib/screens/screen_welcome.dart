@@ -1,4 +1,4 @@
-import 'package:elcontraste_push/widgets/bottom_navigation.dart';
+import 'package:ElContrasteApp/widgets/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 
 class ScreenWelcome extends StatelessWidget {
