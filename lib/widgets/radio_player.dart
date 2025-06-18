@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'notification_service.dart';
+import 'package:audio_service/audio_service.dart';
+import 'audio_handler.dart';
 
 class PersistentRadioPlayer extends StatefulWidget {
   const PersistentRadioPlayer({super.key});
@@ -10,50 +10,44 @@ class PersistentRadioPlayer extends StatefulWidget {
 }
 
 class _PersistentRadioPlayerState extends State<PersistentRadioPlayer> {
-  final AudioPlayer _audioPlayer = AudioPlayer();
+  late AudioHandler _audioHandler;
   bool _isPlaying = false;
-
-  Future<void> _togglePlayback() async {
-    try {
-      if (_isPlaying) {
-        await _audioPlayer.pause();
-      } else {
-        await _audioPlayer.play(UrlSource('https://stream.zeno.fm/3u4rvdaxhrhvv'));
-        await NotificationService().showNotificationWithControls(true);
-      }
-
-      if (mounted) {
-        setState(() {
-          _isPlaying = !_isPlaying;
-        });
-      }
-
-      // Actualiza la notificación
-      await NotificationService().showNotificationWithControls(_isPlaying);
-    } catch (e) {
-      print('Error al reproducir/pausar audio: $e');
-    }
-  }
-
-  Future<void> _stopPlayback() async {
-    await _audioPlayer.stop();
-    setState(() {
-      _isPlaying = false;
-    });
-    await NotificationService().cancelAllNotifications();
-  }
 
   @override
   void initState() {
     super.initState();
-    NotificationService().init();
+    _initAudio();
   }
 
-  @override
-  void dispose() {
-    _audioPlayer.dispose();
-    NotificationService().cancelAllNotifications();
-    super.dispose();
+  Future<void> _initAudio() async {
+    _audioHandler = await AudioService.init(
+      builder: () => RadioAudioHandler(),
+      config: const AudioServiceConfig(
+        androidNotificationChannelId: 'com.elcontraste.radio',
+        androidNotificationChannelName: 'El Contraste Radio',
+        androidNotificationOngoing: true,
+      ),
+    );
+
+    AudioService.playbackStateStream.listen((state) {
+      if (mounted) {
+        setState(() {
+          _isPlaying = state.playing;
+        });
+      }
+    });
+  }
+
+  void _togglePlayback() {
+    if (_isPlaying) {
+      _audioHandler.pause();
+    } else {
+      _audioHandler.play();
+    }
+  }
+
+  void _stopPlayback() {
+    _audioHandler.stop();
   }
 
   @override
@@ -61,7 +55,7 @@ class _PersistentRadioPlayerState extends State<PersistentRadioPlayer> {
     return Opacity(
       opacity: 0.8,
       child: GestureDetector(
-        onTap: _togglePlayback, //Detectar toques en todo el área
+        onTap: _togglePlayback,
         child: Container(
           height: 80,
           color: const Color(0xFF0B375E),

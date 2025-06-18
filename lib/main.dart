@@ -1,24 +1,49 @@
 import 'package:ElContrasteApp/api/firebase_api.dart';
+import 'package:ElContrasteApp/widgets/audio_handler.dart';
 import 'package:ElContrasteApp/widgets/bottom_navigation.dart';
 import 'package:ElContrasteApp/widgets/notification_service.dart';
+import 'package:audio_service/audio_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() async {
-
-  WidgetsFlutterBinding.ensureInitialized();  
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
 
   await Firebase.initializeApp();
-  await FirebaseApi().initNotifications();
+  await initializeDateFormatting('es');
 
-  //Inicializa el servicio de notificaciones
-  await NotificationService().init();
-
-  FlutterNativeSplash.remove();
+  // Configuración de AudioService
+  await _initializeAudioService();
 
   runApp(const MyApp());
+
+  Future.delayed(Duration.zero, () async {
+    await FirebaseApi().initNotifications();
+    await NotificationService().init();
+    FlutterNativeSplash.remove();
+  });
+}
+
+// Función para inicializar el servicio de audio
+Future<void> _initializeAudioService() async {
+  try {
+    if (!(await AudioService.running)) {
+      await AudioService.init(
+        builder: () => RadioAudioHandler(),
+        config: const AudioServiceConfig(
+          androidNotificationChannelId: 'com.elcontraste.radio',
+          androidNotificationChannelName: 'El Contraste Radio',
+          androidNotificationOngoing: true,
+          // Removido resumeOnClick ya que no es un parámetro válido
+        ),
+      );
+    }
+  } catch (e) {
+    debugPrint('Error al inicializar AudioService: $e');
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -54,7 +79,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const ScreenWelcome(), // Pantalla de bienvenida
+      home: const ScreenWelcome(),
     );
   }
 }

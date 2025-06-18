@@ -18,41 +18,31 @@ class FirebaseApi {
 
   // esta funcion se encarga de inicializar las notificaciones y de obtener el token de firebase
   Future<void> initNotifications() async {
-    // Configuracion de las notificaciones Android, utilizando icono de la app app_icon
+  try {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon');
 
-    // Configuracion de las notificaciones incluyendo arrancandolas
-
     const InitializationSettings initializationSettings =
-        InitializationSettings(
-      android: initializationSettingsAndroid,
-      //iOS: DarwinInitializationSettings()
-    );
+        InitializationSettings(android: initializationSettingsAndroid);
 
-    // Inicialización de las configuaraciones de notificaciones
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
     await _firebaseMessaging.requestPermission();
     final fCMToken = await _firebaseMessaging.getToken();
     print('FCM Token: $fCMToken');
 
-    // Manejo de notificaciones en segundo plano
-
     FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
-
-    // Manejo de notificaciones en primer plano
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       if (message.notification != null) {
-        // mostrar la notificación local si la app esta en primer plano
         _showNotification(message.notification!);
-
       }
-
-
     });
+  } catch (e) {
+    print('🔥 Error al inicializar Firebase Notifications: $e');
   }
+}
+
   
   // Metodo para mostrar notificaciones locales
   Future<void> _showNotification(RemoteNotification notification) async {
